@@ -1,0 +1,199 @@
+# Visual_02: categorias simples e canais com ╭「emoji」nome, │「emoji」nome e ╰「emoji」nome, conforme referência.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+# Uso: npm run init -- Visual_02
+# Fóruns exigem modo Comunidade no Discord. Antes de aplicar, confira o suporte e proponha text se necessário.
+# Sete cargos da base Visual_01. admin-chat usa Moderator como acesso restrito dentro da base.
+# Conteúdo de regras, integração Roblox, giveaways, comandos, punições e logs automáticos precisam de configuração posterior.
+version: 1
+server:
+  name: Your Community
+  verificationLevel: medium
+  defaultNotifications: mentions
+everyone:
+  permissions:
+    - ViewChannel
+    - SendMessages
+    - ReadMessageHistory
+    - AddReactions
+    - EmbedLinks
+    - AttachFiles
+    - UseApplicationCommands
+    - SendMessagesInThreads
+    - Connect
+    - Speak
+    - UseVAD
+roles:
+  - name: Moderator
+    color: "#3498db"
+    hoist: true
+    permissions:
+      - ViewChannel
+      - ReadMessageHistory
+      - KickMembers
+      - BanMembers
+      - ModerateMembers
+      - ManageMessages
+      - ManageThreads
+      - MuteMembers
+      - MoveMembers
+  - name: Support
+    color: "#1abc9c"
+    hoist: true
+    permissions: []
+  - name: Tester
+    color: "#f1c40f"
+    permissions: []
+  - name: Content Creator
+    color: "#9b59b6"
+    permissions: []
+  - name: Portuguese
+    color: "#2ecc71"
+    permissions: []
+  - name: English
+    color: "#5865f2"
+    permissions: []
+  - name: Update Notifications
+    permissions: []
+categories:
+  - name: Game Important
+    readonly: true
+    permissions:
+      - role: Moderator
+        allow:
+          - SendMessages
+          - EmbedLinks
+          - AttachFiles
+    channels:
+      - name: ╭「🎮」game-news
+      - name: │「👀」sneak-peeks
+      - name: │「✨」update-logs
+      - name: │「📌」codes
+      - name: ╰「🎴」polls
+  - name: Server Important
+    readonly: true
+    permissions:
+      - role: Moderator
+        allow:
+          - SendMessages
+          - EmbedLinks
+          - AttachFiles
+    channels:
+      - name: ╭「📣」community-news
+      - name: │「🎥」uploaded-content
+      - name: │「🎁」giveaways
+      - name: ╰「🔮」supporters
+  - name: Community
+    channels:
+      - name: ╭「br」portuguese-chat
+        slowmode: 5
+      - name: │「📷」media
+        slowmode: 5
+      - name: ╰「🤖」commands
+  - name: Game Related
+    channels:
+      - name: ╭「❓」questions
+        slowmode: 30
+      - name: │「🌐」feedback
+        slowmode: 30
+      - name: │「💡」suggestions
+        type: forum
+        slowmode: 60
+      - name: ╰「🤖」bug-report
+        type: forum
+        slowmode: 60
+        topic: Describe your platform, reproduction steps, expected result and actual
+          result. Report security issues privately to staff.
+  - name: Content Creator
+    private: true
+    permissions:
+      - &a1
+        role: Moderator
+        allow:
+          - ViewChannel
+          - SendMessages
+          - ReadMessageHistory
+      - &a2
+        role: Support
+        allow:
+          - ViewChannel
+          - SendMessages
+          - ReadMessageHistory
+      - role: Content Creator
+        allow:
+          - ViewChannel
+          - SendMessages
+          - ReadMessageHistory
+          - Connect
+          - Speak
+    channels:
+      - name: ╭「📣」content-announcements
+        readonly: true
+        permissions:
+          - role: Content Creator
+            deny:
+              - SendMessages
+          - role: Moderator
+            allow:
+              - SendMessages
+      - name: │「💬」cc-chat
+      - name: ╰「🎥」CC-VC
+        type: voice
+  - name: Tester
+    private: true
+    permissions:
+      - *a1
+      - *a2
+      - role: Tester
+        allow:
+          - ViewChannel
+          - SendMessages
+          - ReadMessageHistory
+    channels:
+      - name: ╭「📣」tester-announcements
+        readonly: true
+        permissions:
+          - role: Tester
+            deny:
+              - SendMessages
+          - role: Moderator
+            allow:
+              - SendMessages
+      - name: │「🌙」tester-suggestions
+        type: forum
+        slowmode: 60
+      - name: │「👾」tester-bugs
+        type: forum
+        slowmode: 60
+      - name: ╰「💬」tester-chat
+  - name: staff
+    private: true
+    permissions:
+      - *a1
+      - *a2
+    channels:
+      - name: ╭「📰」staff-news
+        readonly: true
+        permissions:
+          - role: Support
+            deny:
+              - SendMessages
+      - name: │「📝」staff-rules
+        readonly: true
+        permissions:
+          - role: Support
+            deny:
+              - SendMessages
+      - name: │「📃」staff-history
+      - name: │「🔨」staff-chat
+      - name: │「🔨」portuguese-staff
+      - name: │「🔒」admin-chat
+        permissions:
+          - role: Support
+            deny:
+              - ViewChannel
+          - role: Moderator
+            allow:
+              - ViewChannel
+      - name: │「🤖」staff-cmds
+      - name: │「🚫」ban-proof
+      - name: ╰「🚧」punish

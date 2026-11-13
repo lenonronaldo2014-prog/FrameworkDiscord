@@ -1,0 +1,85 @@
+# Grupo de estudos / turma: matérias, dúvidas, materiais e salas de foco.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+version: 1
+
+server:
+  name: Grupo de Estudos
+  verificationLevel: low
+  defaultNotifications: mentions
+  systemChannel: boas-vindas
+
+roles:
+  - name: Professor
+    color: "#e67e22"
+    hoist: true
+    permissions: [Administrator]
+  - name: Monitor
+    color: "#3498db"
+    hoist: true
+    mentionable: true
+    permissions: [ManageMessages, ManageThreads, MuteMembers, MoveMembers]
+  - name: Aluno
+    color: "#2ecc71"
+    hoist: true
+
+categories:
+  - name: 📌 Geral
+    readonly: true
+    permissions:
+      - role: Monitor
+        allow: [SendMessages]
+    channels:
+      - name: boas-vindas
+      - name: avisos
+        topic: Avisos de provas, prazos e aulas.
+      - name: cronograma
+        messages:
+          - embed:
+              title: 🗓️ Cronograma
+              color: "#e67e22"
+              description: Calendário de aulas e entregas. Monitores mantêm este canal atualizado.
+            pin: true
+
+  - name: 📚 Matérias
+    channels:
+      - name: matematica
+      - name: portugues
+      - name: ciencias
+      - name: historia
+      - name: programacao
+
+  - name: ❓ Ajuda
+    channels:
+      - name: duvidas
+        type: forum
+        topic: Abra um post por dúvida. Marque como resolvido quando terminar.
+      - name: materiais
+        topic: Resumos, PDFs e links úteis.
+      - name: off-topic
+
+  - name: 🎧 Salas de Estudo
+    channels:
+      - name: Foco (silêncio)
+        type: voice
+        permissions:
+          - role: "@everyone"
+            deny: [Speak]
+      - name: Pomodoro
+        type: voice
+      - name: Grupo 1
+        type: voice
+        userLimit: 6
+      - name: Grupo 2
+        type: voice
+        userLimit: 6
+      - name: Aula ao Vivo
+        type: voice
+
+  - name: 🛡️ Monitoria
+    private: true
+    permissions:
+      - role: Monitor
+        allow: [ViewChannel]
+    channels:
+      - name: monitores
+      - name: planejamento

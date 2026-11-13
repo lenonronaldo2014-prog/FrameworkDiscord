@@ -1,0 +1,30 @@
+{
+  "name": "discord-forge",
+  "version": "0.1.0",
+  "description": "Framework para criar servidores do Discord como código. Qualquer IA escreve o blueprint (server.yaml) e a CLI aplica no servidor.",
+  "type": "module",
+  "bin": {
+    "forge": "src/cli.js"
+  },
+  "scripts": {
+    "forge": "node src/cli.js",
+    "init": "node src/cli.js init",
+    "templates": "node src/cli.js templates",
+    "validate": "node src/cli.js validate",
+    "plan": "node src/cli.js plan",
+    "apply": "node src/cli.js apply",
+    "export": "node src/cli.js export",
+    "check": "node src/cli.js check",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "keywords": ["discord", "framework", "ai", "infrastructure-as-code", "bot"],
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "discord.js": "^14.27.0",
+    "yaml": "^2.9.1"
+  }
+}

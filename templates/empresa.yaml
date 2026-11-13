@@ -1,0 +1,129 @@
+# Empresa / time / startup: departamentos privados, projetos e reuniões.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+version: 1
+
+server:
+  name: Empresa
+  verificationLevel: high
+  defaultNotifications: mentions
+  systemChannel: entradas
+
+# Quem entra não vê nada até receber o cargo Colaborador (ou Convidado).
+everyone:
+  permissions: [ChangeNickname]
+
+roles:
+  - name: Diretoria
+    color: "#2c3e50"
+    hoist: true
+    permissions: [Administrator]
+  - name: Gestor
+    color: "#8e44ad"
+    hoist: true
+    mentionable: true
+    permissions: [ManageMessages, ManageThreads, MuteMembers, MoveMembers, MentionEveryone]
+  - name: Engenharia
+    color: "#2980b9"
+    hoist: true
+    mentionable: true
+  - name: Produto
+    color: "#16a085"
+    hoist: true
+    mentionable: true
+  - name: Comercial
+    color: "#d35400"
+    hoist: true
+    mentionable: true
+  - name: Colaborador
+    color: "#7f8c8d"
+    permissions: [ViewChannel, SendMessages, ReadMessageHistory, AddReactions, EmbedLinks, AttachFiles, Connect, Speak, Stream, UseVAD, CreatePublicThreads, SendMessagesInThreads]
+  - name: Convidado
+    color: "#bdc3c7"
+
+categories:
+  - name: 🏢 Empresa
+    permissions:
+      - role: Convidado
+        deny: [ViewChannel]
+    channels:
+      - name: entradas
+        readonly: true
+      - name: comunicados
+        readonly: true
+        permissions:
+          - role: Colaborador
+            deny: [SendMessages]
+          - role: Gestor
+            allow: [SendMessages]
+      - name: geral
+      - name: aleatorio
+      - name: conquistas
+        topic: Comemore as vitórias do time 🎉
+
+  - name: 💻 Engenharia
+    private: true
+    permissions:
+      - role: Colaborador
+        deny: [ViewChannel]
+      - role: Engenharia
+        allow: [ViewChannel]
+      - role: Gestor
+        allow: [ViewChannel]
+    channels:
+      - name: eng-geral
+      - name: code-review
+      - name: deploys
+      - name: incidentes
+      - name: Daily Eng
+        type: voice
+
+  - name: 🧭 Produto
+    private: true
+    permissions:
+      - role: Colaborador
+        deny: [ViewChannel]
+      - role: Produto
+        allow: [ViewChannel]
+      - role: Engenharia
+        allow: [ViewChannel]
+      - role: Gestor
+        allow: [ViewChannel]
+    channels:
+      - name: roadmap
+      - name: feedback-clientes
+      - name: ideias
+        type: forum
+
+  - name: 💼 Comercial
+    private: true
+    permissions:
+      - role: Colaborador
+        deny: [ViewChannel]
+      - role: Comercial
+        allow: [ViewChannel]
+      - role: Gestor
+        allow: [ViewChannel]
+    channels:
+      - name: vendas
+      - name: leads
+      - name: Call Comercial
+        type: voice
+
+  - name: 🤝 Convidados
+    permissions:
+      - role: Convidado
+        allow: [ViewChannel, SendMessages, ReadMessageHistory]
+    channels:
+      - name: parceiros
+
+  - name: 🎙️ Reuniões
+    permissions:
+      - role: Convidado
+        allow: [ViewChannel, Connect, Speak]
+    channels:
+      - name: Sala 1
+        type: voice
+      - name: Sala 2
+        type: voice
+      - name: All Hands
+        type: voice

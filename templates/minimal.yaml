@@ -1,0 +1,62 @@
+# Servidor básico: regras, conversa, voz e staff. Bom ponto de partida.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+version: 1
+
+server:
+  name: Meu Servidor
+  verificationLevel: low
+  defaultNotifications: mentions
+  systemChannel: boas-vindas
+
+roles:
+  - name: Admin
+    color: "#e74c3c"
+    hoist: true
+    permissions: [Administrator]
+  - name: Moderador
+    color: "#3498db"
+    hoist: true
+    permissions: [KickMembers, BanMembers, ManageMessages, ModerateMembers, MuteMembers, MoveMembers]
+  - name: Membro
+    color: "#2ecc71"
+
+categories:
+  - name: 📌 Início
+    readonly: true
+    channels:
+      - name: regras
+        topic: Leia antes de participar.
+        messages:
+          - embed:
+              title: 📜 Regras do servidor
+              color: "#e74c3c"
+              description: |
+                1. Respeite todos os membros.
+                2. Sem spam, flood ou divulgação sem permissão.
+                3. Conteúdo NSFW é proibido.
+                4. Siga os Termos de Serviço do Discord.
+            pin: true
+      - name: boas-vindas
+
+  - name: 💬 Conversa
+    channels:
+      - name: geral
+        topic: Papo livre.
+      - name: memes
+        slowmode: 5
+
+  - name: 🔊 Voz
+    channels:
+      - name: Geral
+        type: voice
+      - name: AFK
+        type: voice
+
+  - name: 🛡️ Staff
+    private: true
+    permissions:
+      - role: Moderador
+        allow: [ViewChannel]
+    channels:
+      - name: staff-chat
+      - name: logs

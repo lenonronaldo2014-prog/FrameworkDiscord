@@ -1,0 +1,113 @@
+# Clã / comunidade gamer: LFG, salas de squad, clipes e campeonatos.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+version: 1
+
+server:
+  name: Clã Gamer
+  verificationLevel: low
+  defaultNotifications: mentions
+  systemChannel: chegadas
+  afkChannel: AFK
+
+roles:
+  - name: Líder
+    color: "#f1c40f"
+    hoist: true
+    permissions: [Administrator]
+  - name: Moderador
+    color: "#e74c3c"
+    hoist: true
+    permissions: [ManageMessages, KickMembers, ModerateMembers, MuteMembers, MoveMembers, DeafenMembers]
+  - name: Pro Player
+    color: "#9b59b6"
+    hoist: true
+  - name: Membro do Clã
+    color: "#3498db"
+    hoist: true
+  - name: Recruta
+    color: "#95a5a6"
+  - name: Streamer
+    color: "#6441a5"
+    mentionable: true
+
+categories:
+  - name: 📌 Base
+    readonly: true
+    channels:
+      - name: regras
+        messages:
+          - embed:
+              title: 🎮 Regras do Clã
+              color: "#f1c40f"
+              description: |
+                1. Sem toxicidade dentro e fora do jogo.
+                2. Proibido cheats, hacks ou exploits.
+                3. Respeite a call: sem gritos ou soundboard.
+                4. Treinos e campeonatos têm prioridade nas salas de squad.
+            pin: true
+      - name: chegadas
+      - name: anuncios
+      - name: campeonatos
+
+  - name: 💬 Lobby
+    channels:
+      - name: geral
+      - name: procurar-grupo
+        topic: "LFG: diga o jogo, rank e horário."
+        slowmode: 30
+      - name: clipes
+        topic: Suas melhores jogadas.
+        slowmode: 15
+      - name: setup
+        topic: Mostre seu setup.
+      - name: lives
+        topic: Divulgação de lives dos membros.
+        readonly: true
+        permissions:
+          - role: Streamer
+            allow: [SendMessages]
+
+  - name: 🎧 Squads
+    channels:
+      - name: Squad 1
+        type: voice
+        userLimit: 5
+      - name: Squad 2
+        type: voice
+        userLimit: 5
+      - name: Squad 3
+        type: voice
+        userLimit: 5
+      - name: Duo
+        type: voice
+        userLimit: 2
+      - name: Lobby Geral
+        type: voice
+
+  - name: 🏆 Clã
+    private: true
+    permissions:
+      - role: Membro do Clã
+        allow: [ViewChannel]
+      - role: Pro Player
+        allow: [ViewChannel]
+    channels:
+      - name: estrategia
+      - name: treinos
+      - name: Treino
+        type: voice
+        userLimit: 10
+
+  - name: 🛡️ Staff
+    private: true
+    permissions:
+      - role: Moderador
+        allow: [ViewChannel]
+    channels:
+      - name: staff
+      - name: recrutamento
+
+  - name: 💤 Ausente
+    channels:
+      - name: AFK
+        type: voice

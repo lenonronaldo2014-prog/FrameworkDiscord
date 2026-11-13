@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://discord-forge.dev/blueprint.schema.json",
+  "title": "Discord Forge Blueprint",
+  "description": "Descrição declarativa de um servidor do Discord. Veja docs/BLUEPRINT.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["server"],
+  "properties": {
+    "version": { "const": 1, "description": "Versão do formato do blueprint." },
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "verificationLevel": { "enum": ["none", "low", "medium", "high", "very_high"] },
+        "defaultNotifications": { "enum": ["all", "mentions"] },
+        "systemChannel": { "type": "string", "description": "Nome do canal de texto que recebe mensagens do sistema (entradas, boosts)." },
+        "afkChannel": { "type": "string", "description": "Nome do canal de voz AFK." },
+        "afkTimeout": { "enum": [60, 300, 900, 1800, 3600] }
+      }
+    },
+    "everyone": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Permissões base do cargo @everyone.",
+      "properties": {
+        "permissions": { "$ref": "#/definitions/permissionList" }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "description": "Cargos em ordem hierárquica: o primeiro é o mais alto.",
+      "items": { "$ref": "#/definitions/role" }
+    },
+    "categories": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/category" }
+    },
+    "channels": {
+      "type": "array",
+      "description": "Canais fora de qualquer categoria.",
+      "items": { "$ref": "#/definitions/channel" }
+    }
+  },
+  "definitions": {
+    "permissionList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "description": "Nome de permissão, ex: SendMessages. Veja docs/PERMISSIONS.md." }
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "color": { "$ref": "#/definitions/color" },
+        "hoist": { "type": "boolean", "description": "Exibir separadamente na lista de membros." },
+        "mentionable": { "type": "boolean" },
+        "permissions": { "$ref": "#/definitions/permissionList" }
+      }
+    },
+    "overwrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role"],
+      "properties": {
+        "role": { "type": "string", "description": "Nome de um cargo do blueprint ou \"@everyone\"." },
+        "allow": { "$ref": "#/definitions/permissionList" },
+        "deny": { "$ref": "#/definitions/permissionList" }
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "private": { "type": "boolean", "description": "Atalho: nega ViewChannel para @everyone." },
+        "readonly": { "type": "boolean", "description": "Atalho: nega envio de mensagens para @everyone." },
+        "permissions": { "type": "array", "items": { "$ref": "#/definitions/overwrite" } },
+        "channels": { "type": "array", "items": { "$ref": "#/definitions/channel" } }
+      }
+    },
+    "embed": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "maxLength": 256 },
+        "description": { "type": "string", "maxLength": 4096 },
+        "color": { "$ref": "#/definitions/color" },
+        "footer": { "type": "string", "maxLength": 2048 },
+        "fields": {
+          "type": "array",
+          "maxItems": 25,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "value"],
+            "properties": {
+              "name": { "type": "string", "maxLength": 256 },
+              "value": { "type": "string", "maxLength": 1024 },
+              "inline": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "content": { "type": "string", "maxLength": 2000 },
+        "embed": { "$ref": "#/definitions/embed" },
+        "pin": { "type": "boolean" }
+      },
+      "anyOf": [{ "required": ["content"] }, { "required": ["embed"] }]
+    },
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "type": {
+          "enum": ["text", "voice", "announcement", "stage", "forum"],
+          "default": "text",
+          "description": "announcement e stage exigem que o servidor tenha o modo Comunidade ativado."
+        },
+        "topic": { "type": "string", "maxLength": 1024 },
+        "nsfw": { "type": "boolean" },
+        "slowmode": { "type": "integer", "minimum": 0, "maximum": 21600, "description": "Segundos entre mensagens por usuário." },
+        "userLimit": { "type": "integer", "minimum": 0, "maximum": 99, "description": "Somente voz. 0 = sem limite." },
+        "bitrate": { "type": "integer", "minimum": 8000, "maximum": 384000, "description": "Somente voz/palco." },
+        "private": { "type": "boolean", "description": "Atalho: nega ViewChannel para @everyone." },
+        "readonly": { "type": "boolean", "description": "Atalho: nega envio de mensagens para @everyone." },
+        "permissions": { "type": "array", "items": { "$ref": "#/definitions/overwrite" } },
+        "messages": {
+          "type": "array",
+          "description": "Mensagens que o bot publica no canal (uma única vez, idempotente).",
+          "items": { "$ref": "#/definitions/message" }
+        }
+      }
+    }
+  }
+}

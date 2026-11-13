@@ -1,0 +1,226 @@
+# Visual_01: base padrão com canais 『emoji』│english-name, categorias ornamentadas e regras PT/EN.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+# Uso: npm run init -- Visual_01
+# Personalize o servidor e a proposta de cargos antes de aplicar. Logs ficam no final.
+# Logs e comandos automáticos precisam de bot dedicado.
+version: 1
+server:
+  name: Your Community
+  verificationLevel: medium
+  defaultNotifications: mentions
+roles:
+  - name: Moderator
+    color: "#3498db"
+    hoist: true
+    permissions:
+      - ViewChannel
+      - ReadMessageHistory
+      - KickMembers
+      - BanMembers
+      - ModerateMembers
+      - ManageMessages
+      - ManageThreads
+      - MuteMembers
+      - MoveMembers
+  - name: Support
+    color: "#1abc9c"
+    hoist: true
+    permissions: []
+  - name: Tester
+    color: "#f1c40f"
+    permissions: []
+  - name: Content Creator
+    color: "#9b59b6"
+    permissions: []
+  - name: Portuguese
+    color: "#2ecc71"
+    permissions: []
+  - name: English
+    color: "#5865f2"
+    permissions: []
+  - name: Update Notifications
+    permissions: []
+categories:
+  - name: ▲───◇ IMPORTANT ◇───▲
+    channels:
+      - name: 『📖』│rules
+        topic: Regras oficiais / Official rules — our community
+        readonly: true
+        messages:
+          - embed:
+              title: Regras • Português
+              color: "#2ecc71"
+              description: >-
+                Bem-vindo à nossa comunidade!
+
+
+                1. Respeite todos. Assédio, discriminação, ameaças e discurso de
+                ódio são proibidos.
+
+                2. Sem spam, flood, propaganda não autorizada ou marcações em
+                massa.
+
+                3. Não publique conteúdo sexual, violência explícita, golpes ou
+                links maliciosos.
+
+                4. Não compartilhe dados pessoais seus ou de outras pessoas.
+                Nunca peça senhas, cookies, códigos ou tokens.
+
+                5. Exploits, scripts de trapaça, abuso de bugs e sua divulgação
+                são proibidos. Relate falhas de segurança em particular à
+                equipe.
+
+                6. Sem venda de contas, Robux, itens ou serviços por dinheiro
+                real. Não faça trocas fora dos sistemas oficiais do jogo.
+
+                7. Use o canal adequado. Português e inglês são bem-vindos;
+                evite spoilers sem aviso.
+
+                8. Relate problemas com detalhes e evidências sem expor
+                informações privadas. Não faça denúncias públicas contra
+                jogadores.
+
+                9. Não se passe pela equipe. Ninguém da staff pedirá sua senha
+                ou pagamento para resolver problemas.
+
+                10. Siga os Termos e as Diretrizes do Discord e do Roblox. A
+                equipe poderá aplicar avisos, silenciamentos, expulsões ou
+                banimentos conforme a gravidade. Conteste decisões em
+                particular, com respeito.
+            pin: true
+          - embed:
+              title: Rules • English
+              color: "#5865f2"
+              description: >-
+                Welcome to our community!
+
+
+                1. Respect everyone. Harassment, discrimination, threats and
+                hate speech are prohibited.
+
+                2. No spam, flooding, unauthorized advertising or mass mentions.
+
+                3. Do not post sexual content, graphic violence, scams or
+                malicious links.
+
+                4. Protect personal information. Never request passwords,
+                cookies, verification codes or tokens.
+
+                5. Exploits, cheating scripts, bug abuse and instructions
+                promoting them are prohibited. Report security issues privately
+                to the team.
+
+                6. No selling accounts, Robux, items or services for real money.
+                Do not trade outside official in-game systems.
+
+                7. Use the appropriate channel. Portuguese and English are
+                welcome; warn others about spoilers.
+
+                8. Report issues with clear details and evidence without
+                exposing private information. Do not publicly accuse players.
+
+                9. Do not impersonate staff. Staff will never request your
+                password or payment to resolve an issue.
+
+                10. Follow Discord and Roblox Terms and Guidelines. Staff may
+                issue warnings, timeouts, kicks or bans depending on severity.
+                Appeal decisions privately and respectfully.
+            pin: true
+      - name: 『📢』│announcements
+        topic: Anúncios oficiais do jogo / Official game announcements
+        readonly: true
+      - name: 『📰』│news
+        topic: Atualizações, correções e novidades / Updates, fixes and news
+        readonly: true
+    readonly: true
+    permissions:
+      - role: Moderator
+        allow:
+          - SendMessages
+          - EmbedLinks
+          - AttachFiles
+  - name: ▲───◇ MANAGEMENT ◇───▲
+    permissions:
+      - role: Moderator
+        allow:
+          - ViewChannel
+          - Connect
+          - SendMessages
+          - ReadMessageHistory
+    channels:
+      - name: 『📌』│audit
+      - name: 『📢』│announcements
+      - name: 『💬』│management-chat
+      - name: 『🔊』│Meeting
+        type: voice
+      - name: 『🔊』│Hiring
+        type: voice
+    private: true
+  - name: ▲───◇ COMMUNITY ◇───▲
+    channels:
+      - name: 『💬』│general
+        slowmode: 5
+        topic: Comunidade our community • Português e inglês / Portuguese and English
+      - name: 『🤖』│commands
+        slowmode: 5
+        topic: Comandos dos bots instalados / Installed bot commands
+      - name: 『💡』│suggestions
+        slowmode: 60
+        topic: "Sugestões / Suggestions: ideia, motivo e impacto. Uma ideia por tópico /
+          One idea per thread."
+      - name: 『📸』│media
+        slowmode: 5
+        topic: Clipes, screenshots e fanarts de our community / Clips, screenshots and
+          fan art
+      - name: 『🔊』│Voice 1
+        type: voice
+      - name: 『🔊』│Voice 2
+        type: voice
+      - name: 『🐛』│bugs
+        slowmode: 60
+        topic: "Reporte bugs / Report bugs: plataforma, passos para reproduzir,
+          resultado esperado e evidências / platform, steps, expected result and
+          evidence. Falhas de segurança: contate a staff em particular /
+          Security issues: contact staff privately."
+      - name: 『❓』│help
+        slowmode: 30
+        topic: Ajuda com our community / our community support. Descreva sua dúvida e
+          sua plataforma / Describe your question and platform. Nunca
+          compartilhe senhas ou dados pessoais / Never share passwords or
+          personal data.
+  - name: ▲───◇ STAFF ◇───▲
+    permissions:
+      - role: "@everyone"
+        deny:
+          - ViewChannel
+          - Connect
+      - role: Moderator
+        allow:
+          - ViewChannel
+          - ReadMessageHistory
+          - SendMessages
+      - role: Support
+        allow:
+          - ViewChannel
+          - ReadMessageHistory
+          - SendMessages
+    channels:
+      - name: 『🚨』│staff-adverts
+      - name: 『💬』│chat-staff
+      - name: 『👊』│punishments
+      - name: 『📑』│moderators-log
+    private: true
+  - name: ▲───◇ LOGS ◇───▲
+    permissions:
+      - role: "@everyone"
+        deny:
+          - ViewChannel
+          - Connect
+      - role: Moderator
+        allow:
+          - ViewChannel
+          - ReadMessageHistory
+    channels:
+      - name: 『📩』│message-logs
+      - name: 『🎟』│join-leave
+    private: true

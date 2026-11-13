@@ -1,0 +1,137 @@
+# Comunidade geral: anúncios, apresentações, cargos de nível, eventos e staff.
+# yaml-language-server: $schema=../schema/blueprint.schema.json
+version: 1
+
+server:
+  name: Comunidade
+  verificationLevel: medium
+  defaultNotifications: mentions
+  systemChannel: boas-vindas
+  afkChannel: AFK
+  afkTimeout: 900
+
+everyone:
+  permissions: [ViewChannel, SendMessages, ReadMessageHistory, AddReactions, EmbedLinks, AttachFiles, UseExternalEmojis, Connect, Speak, Stream, UseVAD, CreatePublicThreads, SendMessagesInThreads, ChangeNickname]
+
+roles:
+  - name: Dono
+    color: "#f1c40f"
+    hoist: true
+    permissions: [Administrator]
+  - name: Admin
+    color: "#e74c3c"
+    hoist: true
+    permissions: [ManageGuild, ManageChannels, ManageRoles, ManageMessages, KickMembers, BanMembers, ModerateMembers, ViewAuditLog, MentionEveryone]
+  - name: Moderador
+    color: "#3498db"
+    hoist: true
+    mentionable: true
+    permissions: [ManageMessages, KickMembers, ModerateMembers, MuteMembers, MoveMembers, ManageThreads, ViewAuditLog]
+  - name: Ajudante
+    color: "#1abc9c"
+    hoist: true
+    permissions: [ManageMessages, ManageThreads]
+  - name: VIP
+    color: "#9b59b6"
+    hoist: true
+  - name: Nível 10
+    color: "#e67e22"
+  - name: Nível 5
+    color: "#95a5a6"
+  - name: Eventos
+    mentionable: true
+
+categories:
+  - name: 📢 Informações
+    readonly: true
+    channels:
+      - name: boas-vindas
+        topic: Seja bem-vindo(a)!
+        messages:
+          - embed:
+              title: 👋 Bem-vindo(a) à comunidade!
+              color: "#2ecc71"
+              description: |
+                Que bom ter você aqui. Comece por aqui:
+                • Leia as regras em #regras
+                • Se apresente em #apresentacoes
+                • Pegue seus cargos em #cargos
+      - name: regras
+        messages:
+          - embed:
+              title: 📜 Regras
+              color: "#e74c3c"
+              description: |
+                1. Respeito acima de tudo: sem ofensas, preconceito ou assédio.
+                2. Sem spam, flood ou autopromoção fora de #divulgacao.
+                3. Use cada canal para o seu assunto.
+                4. Proibido conteúdo NSFW, pirataria ou ilegal.
+                5. Decisões da staff são finais; em caso de dúvida, chame um Moderador.
+              footer: Ao participar você concorda com estas regras.
+            pin: true
+      - name: anuncios
+        topic: Novidades oficiais do servidor.
+      - name: cargos
+        topic: Escolha seus cargos de interesse.
+
+  - name: 💬 Comunidade
+    channels:
+      - name: geral
+        topic: Conversa livre sobre qualquer assunto.
+      - name: apresentacoes
+        topic: Conte um pouco sobre você!
+        slowmode: 60
+      - name: midia
+        topic: Fotos, vídeos e artes.
+        slowmode: 10
+      - name: memes
+        slowmode: 5
+      - name: divulgacao
+        topic: Divulgue seus projetos (1 post a cada 6h).
+        slowmode: 21600
+      - name: sugestoes
+        type: forum
+        topic: Sugira melhorias para o servidor.
+
+  - name: 🎉 Eventos
+    readonly: true
+    permissions:
+      - role: Eventos
+        allow: [SendMessages]
+    channels:
+      - name: eventos
+        topic: Agenda de eventos da comunidade.
+      - name: Palco de Eventos
+        type: voice
+
+  - name: 🔊 Voz
+    channels:
+      - name: Bate-papo 1
+        type: voice
+      - name: Bate-papo 2
+        type: voice
+      - name: Música
+        type: voice
+      - name: Sala VIP
+        type: voice
+        private: true
+        permissions:
+          - role: VIP
+            allow: [ViewChannel, Connect]
+      - name: AFK
+        type: voice
+
+  - name: 🛡️ Staff
+    private: true
+    permissions:
+      - role: Moderador
+        allow: [ViewChannel]
+      - role: Ajudante
+        allow: [ViewChannel]
+    channels:
+      - name: staff-geral
+      - name: denuncias
+      - name: logs
+        readonly: true
+      - name: Reunião
+        type: voice
