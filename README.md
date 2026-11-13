@@ -2,6 +2,37 @@
 
 **Servidores do Discord como código, feitos por qualquer IA.**
 
+## 📦 [Baixar o framework em ZIP](https://github.com/lenonronaldo2014-prog/FrameworkDiscord/archive/refs/heads/main.zip)
+
+O download inclui o framework, os estilos **Visual_01** e **Visual_02** e as instruções para sua IA.
+
+### Comece em 3 passos
+
+1. Clique em **Baixar o framework em ZIP** acima e extraia a pasta no seu computador.
+2. Abra a pasta extraída na ferramenta de IA que você usa para trabalhar com arquivos locais.
+3. Envie a mensagem abaixo. Troque o nome e a descrição pelo que você deseja.
+
+```text
+Leia o AGENTS.md deste projeto e me ajude a configurar o framework.
+Quero um servidor para meu jogo no Roblox chamado "Nome do Jogo".
+Mostre as bases Visual_01 e Visual_02 para eu escolher o estilo.
+Use os cargos da base como proposta inicial e pergunte o que falta definir.
+Confira o Node.js e instale as dependências com npm install.
+Me oriente a configurar meu próprio bot e o arquivo .env localmente.
+Valide o blueprint e mostre o plano antes de aplicar no Discord.
+```
+
+Você precisa de **Node.js 20.12+**, acesso para gerenciar o servidor do Discord e um bot seu.
+O guia [Configurar meu bot](docs/SETUP-BOT.md) mostra como criar e conectar o bot.
+O token deve ser preenchido somente no `.env` local.
+
+### Escolha seu estilo
+
+| Estilo | Aparência | Template |
+| --- | --- | --- |
+| **Visual_01** | `▲───◇ IMPORTANT ◇───▲` e `『📌』│audit` | [Ver Visual_01](templates/Visual_01.yaml) |
+| **Visual_02** | `Game Important` e `╭「🎮」game-news` | [Ver Visual_02](templates/Visual_02.yaml) |
+
 Peça para sua IA favorita "montar um servidor de Discord para X". Ela lê as instruções do
 framework, escreve um blueprint (`server.yaml`) com cargos, categorias, canais, permissões e
 mensagens, valida, mostra o plano e — com a sua aprovação — aplica tudo no servidor real.
